@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* GridLoad brand tokens (HSL) */
+    --background: 0 0% 100%;
+    --foreground: 211 38% 17%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 211 38% 17%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 211 38% 17%;
+
+    /* Navy #1B2A3B */
+    --primary: 211 38% 17%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Green #1B6B2F */
+    --secondary: 131 59% 26%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 20% 96%;
+    --muted-foreground: 211 15% 40%;
+
+    /* Yellow #F5C518 */
+    --accent: 47 92% 53%;
+    --accent-foreground: 211 38% 17%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 20% 90%;
+    --input: 210 20% 90%;
+    --ring: 131 59% 26%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 211 38% 17%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 47 92% 53%;
+    --sidebar-primary-foreground: 211 38% 17%;
+    --sidebar-accent: 211 38% 22%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 211 38% 25%;
+    --sidebar-ring: 47 92% 53%;
+  }
+
+  .dark {
+    --background: 211 38% 12%;
+    --foreground: 0 0% 100%;
+    --card: 211 38% 15%;
+    --card-foreground: 0 0% 100%;
+    --popover: 211 38% 15%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 47 92% 53%;
+    --primary-foreground: 211 38% 17%;
+    --secondary: 131 59% 26%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 211 30% 20%;
+    --muted-foreground: 210 20% 70%;
+    --accent: 47 92% 53%;
+    --accent-foreground: 211 38% 17%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 211 30% 25%;
+    --input: 211 30% 25%;
+    --ring: 47 92% 53%;
+    --sidebar-background: 211 38% 12%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 47 92% 53%;
+    --sidebar-primary-foreground: 211 38% 17%;
+    --sidebar-accent: 211 38% 18%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 211 38% 20%;
+    --sidebar-ring: 47 92% 53%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-inter antialiased;
+  }
+}
+
+@layer utilities {
+  .gridload-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}

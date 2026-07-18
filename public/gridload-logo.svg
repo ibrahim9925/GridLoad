@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 32" fill="none" role="img" aria-label="GridLoad">
+  <text x="0" y="24" font-family="Inter, system-ui, Arial Black, sans-serif" font-size="22" font-weight="800" letter-spacing="-0.02em" fill="#1B2A3B">Grid</text>
+  <path d="M62 2 L72 14 L66 14 L70 30 L54 14 L60 14 Z" fill="#F5C518"/>
+  <path d="M62 2 L72 14 L66 14 L62 14 Z" fill="#E5A800"/>
+  <text x="76" y="24" font-family="Inter, system-ui, Arial Black, sans-serif" font-size="22" font-weight="800" letter-spacing="-0.02em" fill="#1B2A3B">oad</text>
+</svg>

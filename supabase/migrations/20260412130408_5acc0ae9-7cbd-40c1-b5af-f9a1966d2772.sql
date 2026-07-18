@@ -1,0 +1,1 @@
+ALTER TABLE public.product_serial_numbers ADD COLUMN IF NOT EXISTS sold_date timestamptz;

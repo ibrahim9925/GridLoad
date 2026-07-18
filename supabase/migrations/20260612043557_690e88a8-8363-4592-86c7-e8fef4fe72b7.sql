@@ -1,0 +1,2 @@
+ALTER TABLE public.customers ADD COLUMN IF NOT EXISTS payment_terms_days integer DEFAULT 7;
+COMMENT ON COLUMN public.customers.payment_terms_days IS 'Days after invoice date before sale is overdue for this customer. NULL = never flag overdue.';

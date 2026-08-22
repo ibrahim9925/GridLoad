@@ -16,6 +16,7 @@ import {
   Wrench,
   BarChart3,
   FileBarChart,
+  Images,
 } from "lucide-react";
 
 export type NavigationItem = {
@@ -47,6 +48,7 @@ export const NAVIGATION_SECTIONS: {
       { title: "Suppliers", url: "/admin/suppliers", icon: Truck },
       { title: "Purchasing", url: "/admin/purchasing", icon: Warehouse },
       { title: "Installations", url: "/admin/installations", icon: Wrench },
+      { title: "Website Projects", url: "/admin/website-projects", icon: Images },
       { title: "Payments", url: "/admin/payments", icon: CreditCard },
       { title: "Warranties", url: "/admin/warranties", icon: Shield },
     ],

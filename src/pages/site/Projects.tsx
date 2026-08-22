@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import SiteLayout from "@/components/site/SiteLayout";
 import ProjectCard from "@/components/site/ProjectCard";
@@ -6,6 +7,7 @@ import { PublicProject } from "@/lib/publicTypes";
 import { X, MapPin, Zap, Calendar } from "lucide-react";
 
 export default function Projects() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [projects, setProjects] = useState<PublicProject[] | null>(null);
   const [country, setCountry] = useState("all");
   const [active, setActive] = useState<PublicProject | null>(null);
@@ -17,8 +19,24 @@ export default function Projects() {
       .select("*")
       .eq("is_active", true)
       .order("completion_date", { ascending: false, nullsFirst: false })
-      .then(({ data }) => setProjects((data ?? []) as any));
+      .then(({ data }) => setProjects((data ?? []) as PublicProject[]));
   }, []);
+
+  useEffect(() => {
+    const openId = searchParams.get("open");
+    if (!openId || !projects) return;
+    const match = projects.find((p) => p.id === openId);
+    if (match) setActive(match);
+  }, [projects, searchParams]);
+
+  const closeModal = () => {
+    setActive(null);
+    if (searchParams.has("open")) {
+      const next = new URLSearchParams(searchParams);
+      next.delete("open");
+      setSearchParams(next, { replace: true });
+    }
+  };
 
   const countries = useMemo(() => {
     if (!projects) return [];
@@ -75,7 +93,9 @@ export default function Projects() {
             ))}
           </div>
         ) : filtered.length === 0 ? (
-          <p className="text-center py-20 text-muted-foreground">No projects yet.</p>
+          <p className="text-center py-20 text-muted-foreground">
+            No projects yet. Published installations will appear here.
+          </p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((p) => (
@@ -89,7 +109,7 @@ export default function Projects() {
       {active && (
         <div
           className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4 overflow-y-auto"
-          onClick={() => setActive(null)}
+          onClick={closeModal}
         >
           <div
             className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto"
@@ -100,7 +120,8 @@ export default function Projects() {
                 <img src={active.images[0]} alt={active.title} className="w-full h-72 object-cover rounded-t-lg" />
               )}
               <button
-                onClick={() => setActive(null)}
+                type="button"
+                onClick={closeModal}
                 className="absolute top-3 right-3 p-2 rounded-full bg-white text-gridload-navy"
                 aria-label="Close"
               >

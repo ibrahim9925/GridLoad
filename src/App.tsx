@@ -30,6 +30,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import AutomationHub from "@/pages/admin/AutomationHub";
 import ComprehensivePayments from "@/pages/admin/ComprehensivePayments";
 import Installations from "@/pages/admin/Installations";
+import WebsiteProjects from "@/pages/admin/WebsiteProjects";
 import Expenses from "@/pages/admin/Expenses";
 import Warranties from "@/pages/admin/Warranties";
 import FinancialReports from "@/pages/admin/FinancialReports";
@@ -95,6 +96,7 @@ function App() {
                       <Route path="quotations" element={<Quotations />} />
                       <Route path="fulfillment" element={<Fulfillment />} />
                       <Route path="installations" element={<Installations />} />
+                      <Route path="website-projects" element={<WebsiteProjects />} />
                       <Route path="expenses" element={<Expenses />} />
                       <Route path="warranties" element={<Warranties />} />
                       <Route path="commission" element={<CommissionManagement />} />

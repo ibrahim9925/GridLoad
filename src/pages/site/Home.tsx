@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import SiteLayout from "@/components/site/SiteLayout";
 import BannerSlider from "@/components/site/BannerSlider";
@@ -16,6 +16,7 @@ const WHY = [
 ];
 
 export default function Home() {
+  const navigate = useNavigate();
   const [products, setProducts] = useState<PublicProduct[] | null>(null);
   const [projects, setProjects] = useState<PublicProject[] | null>(null);
 
@@ -107,7 +108,13 @@ export default function Home() {
             <p className="text-center text-muted-foreground py-12">No featured projects yet.</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {projects.map((p) => <ProjectCard key={p.id} project={p as any} />)}
+              {projects.map((p) => (
+                <ProjectCard
+                  key={p.id}
+                  project={p}
+                  onClick={() => navigate(`/projects?open=${p.id}`)}
+                />
+              ))}
             </div>
           )}
         </div>

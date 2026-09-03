@@ -8,6 +8,9 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    strictPort: true,
+    // Allow Cursor port-forward / preview hostnames
+    allowedHosts: true,
   },
   plugins: [
     react(),

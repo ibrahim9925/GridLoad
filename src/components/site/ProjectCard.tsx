@@ -11,6 +11,7 @@ export default function ProjectCard({
   const cover = project.images?.[0];
   return (
     <button
+      type="button"
       onClick={onClick}
       className="text-left bg-white border border-gridload-lightgray rounded-lg overflow-hidden hover:shadow-lg hover:border-gridload-green transition-all flex flex-col w-full"
     >

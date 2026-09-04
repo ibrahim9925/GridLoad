@@ -33,7 +33,7 @@ export default function Contact() {
     phone: "",
     country: "",
     product_interest: params.get("product") ?? "",
-    message: "",
+    message: params.get("message") ?? "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 

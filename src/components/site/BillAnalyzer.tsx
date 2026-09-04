@@ -12,6 +12,7 @@ import {
   formatIls,
   formatNumber,
   quoteSearchParams,
+  INSTALLED_COST_PER_KW_ILS,
 } from "@/utils/billAnalyzer";
 
 type FormFields = {
@@ -183,7 +184,7 @@ export default function BillAnalyzer() {
                 <Field
                   id={`${formId}-hours`}
                   label="Average Daily Usage Hours (optional)"
-                  helper="How many hours per day do you use electricity?"
+                  helper="How many hours per day do you use electricity? This does not change the system size — we size from your bill."
                   error={errors.dailyHours}
                 >
                   <Input
@@ -297,12 +298,22 @@ function ResultsCard({ result }: { result: BillAnalyzerResult }) {
           <dl className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
             <Stat label="System size" value={`${formatNumber(result.systemSizeKw)} kW`} />
             {result.batteryCapacityKwh != null && (
-              <Stat label="Battery capacity" value={`${formatNumber(result.batteryCapacityKwh)} kWh`} />
+              <Stat
+                label="Battery capacity"
+                value={`${formatNumber(result.batteryCapacityKwh)} kWh`}
+              />
             )}
             <Stat label="Panels required" value={`${formatNumber(result.panelsNeeded)} units`} />
             <Stat label="Roof space required" value={`${formatNumber(result.spaceRequiredM2)} m²`} />
           </dl>
         </div>
+
+        {result.batteryCapacityKwh != null && (
+          <p className="text-xs text-muted-foreground -mt-3">
+            About one day of backup: 130% of daily use. This is a nameplate estimate, not a lab model of
+            efficiency or depth of discharge.
+          </p>
+        )}
 
         {result.roofTooSmall && (
           <div
@@ -317,6 +328,32 @@ function ResultsCard({ result }: { result: BillAnalyzerResult }) {
           </div>
         )}
 
+        {!result.roofTooSmall && result.roofTight && (
+          <div
+            className="flex gap-3 rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950"
+            role="status"
+          >
+            <AlertTriangle className="h-5 w-5 shrink-0 text-amber-600" aria-hidden="true" />
+            <p>
+              Your roof ({formatNumber(result.roofSizeM2)} m²) is almost fully used by this array (
+              {formatNumber(result.spaceRequiredM2)} m²). That leaves little room for walkways, the inverter,
+              and maintenance. We can help optimize the layout — we will not auto-shrink the system here.
+            </p>
+          </div>
+        )}
+
+        {result.dailyUsageHours != null && (
+          <div
+            className="flex gap-3 rounded-md border border-gridload-lightgray bg-white p-3 text-sm text-gridload-navy/80"
+            role="note"
+          >
+            <p>
+              Daily usage hours ({result.dailyUsageHours} h) are noted for your quote. System size still comes
+              from the bill ({formatNumber(result.monthlyKwh)} kWh/month), not from hours.
+            </p>
+          </div>
+        )}
+
         <div>
           <h3 className="text-sm font-semibold uppercase tracking-wide text-gridload-green">Financial impact</h3>
           <dl className="mt-3 space-y-2">
@@ -326,8 +363,13 @@ function ResultsCard({ result }: { result: BillAnalyzerResult }) {
               value={`${formatIls(result.gridloadMonthlyCost)} (30% of current)`}
             />
             <Row label="Annual savings" value={formatIls(result.annualSavings)} />
+            <Row label="Estimated PV cost" value={formatIls(result.estimatedPvCostIls)} />
             <Row label="Payback period" value={`${result.paybackYears.toFixed(1)} years`} />
           </dl>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Payback uses an estimated ₪{INSTALLED_COST_PER_KW_ILS.toLocaleString("en-US")} per kW for panels
+            and install only. Battery cost is not included.
+          </p>
         </div>
 
         <Button

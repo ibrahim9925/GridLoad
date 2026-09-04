@@ -1,0 +1,106 @@
+---
+description: GridLoad project context, port, and how to keep it separate from Aqarkoom
+alwaysApply: true
+---
+
+## GRIDLOAD PROJECT CONTEXT & CONFIGURATION
+
+**Project Name:** GridLoad Solar Energy  
+**Repository:** https://github.com/ibrahim9925/gridload  
+**Framework:** Vite + React + TypeScript (ShadCN UI)  
+**Location on disk:** `/path/to/gridload` (wherever you cloned it)
+
+---
+
+### DEVELOPMENT SERVER
+
+**Port:** 8080  
+**URL:** http://localhost:8080  
+**Dev Command:** `npm run dev`
+
+The port is configured in `vite.config.ts`:
+```
+server: {
+  host: "::",
+  port: 8080,
+  strictPort: true,
+}
+```
+
+If you need to change the port, edit this file. Do not use port 8080 for any other project.
+
+---
+
+### KEY DIRECTORIES
+
+| Path | Purpose |
+|------|---------|
+| `/src/components/` | React components (admin, business, site, solar, contact, test-monitor, ui) |
+| `/src/pages/` | Page components (admin, site) |
+| `/src/services/` | API services and business logic |
+| `/src/integrations/supabase/` | Supabase client and auth |
+| `/supabase/` | Database migrations and edge functions |
+| `/public/` | Static assets (logos, images) |
+| `/tests/` | Test suites (e2e, integration, performance, regression) |
+
+---
+
+### IMPORTANT FILES
+
+**Core Configuration:**
+- `vite.config.ts` — Vite server config (port 8080)
+- `tsconfig.json` — TypeScript config
+- `tailwind.config.ts` — Tailwind CSS config
+- `package.json` — Dependencies and scripts
+
+**Environment:**
+- `.env.example` — Copy this to `.env.local` and fill in your values
+- Supabase: `supabase/config.toml`
+
+**Key Source Files:**
+- `src/App.tsx` — Main app component
+- `src/main.tsx` — Entry point
+- `src/integrations/supabase/client.ts` — Supabase client initialization
+
+---
+
+### RUNNING GRIDLOAD
+
+**Start development:**
+```bash
+npm install
+npm run dev
+```
+
+**Access the app:**
+Open http://localhost:8080 in your browser
+
+**Stop the server:**
+Press `Ctrl+C` in the terminal
+
+---
+
+### SEPARATING FROM AQARKOOM
+
+GridLoad and Aqarkoom are **two separate projects in two separate folders**.
+
+- GridLoad folder: runs on port **8080**
+- Aqarkoom folder: runs on port **5173** (or whatever you set it to)
+
+**Always:**
+1. Open GridLoad in one Cursor window
+2. Open Aqarkoom in a separate Cursor window
+3. Run `npm run dev` in each folder's terminal independently
+4. Access them at different URLs (8080 for GridLoad, 5173 for Aqarkoom)
+
+Do not open the parent folder containing both projects. This creates confusion. Use File → Open Folder for each project separately.
+
+---
+
+### WHEN YOU SWITCH TO AQARKOOM
+
+Close this window or minimize it. Open Aqarkoom in a new Cursor window. That project is completely separate and has its own port configuration.
+
+---
+
+**This is your GridLoad workspace. Questions about Aqarkoom should be asked in the Aqarkoom workspace.**

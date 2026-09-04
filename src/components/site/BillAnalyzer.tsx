@@ -272,17 +272,18 @@ export default function BillAnalyzer() {
     setCrmSaveFailed(false);
     setSaving(true);
     const saveStarted = Date.now();
+    let openWhatsappFallback = false;
     try {
       const { error } = await upsertBillAnalyzerLead(payload);
       if (error) {
         console.error("Failed to save bill analyzer lead:", error);
         setCrmSaveFailed(true);
-        openFallbacks(buildLeadShareText(payload));
+        openWhatsappFallback = true;
       }
     } catch (err) {
       console.error("Failed to save bill analyzer lead:", err);
       setCrmSaveFailed(true);
-      openFallbacks(buildLeadShareText(payload));
+      openWhatsappFallback = true;
     } finally {
       const remaining = 600 - (Date.now() - saveStarted);
       if (remaining > 0) {
@@ -293,6 +294,9 @@ export default function BillAnalyzer() {
     setSubmitted(true);
     setCallbackPhone(normalizePhone(phoneRaw));
     showBilingualThanks();
+    if (openWhatsappFallback) {
+      openFallbacks(buildLeadShareText(payload));
+    }
     requestAnimationFrame(() => {
       resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     });

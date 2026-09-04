@@ -564,7 +564,7 @@ function CtaCard({
           className="flex items-center justify-center gap-3 w-full rounded-md bg-gridload-yellow text-gridload-navy font-semibold py-3 hover:brightness-95"
         >
           <Phone className="h-5 w-5" aria-hidden="true" />
-          {t.callNow} · {GRIDLOAD_SALES_PHONE_DISPLAY}
+          {t.callNow} · <span dir="ltr">{GRIDLOAD_SALES_PHONE_DISPLAY}</span>
         </a>
         <div className="border-t border-gridload-lightgray pt-4 space-y-3">
           <p className="text-sm font-medium text-gridload-navy">{t.preferCallback}</p>

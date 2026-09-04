@@ -79,25 +79,57 @@ function toPayload(input: BillAnalyzerLeadWrite): Record<string, unknown> {
 }
 
 export async function upsertBillAnalyzerLead(input: BillAnalyzerLeadWrite): Promise<{ error: string | null }> {
-  const { error } = await supabase.rpc("submit_bill_analyzer_lead" as never, {
-    payload: toPayload(input),
-  } as never);
-  return { error: error?.message ?? null };
+  try {
+    const { error } = await supabase.rpc("submit_bill_analyzer_lead" as never, {
+      payload: toPayload(input),
+    } as never);
+    return { error: error?.message ?? null };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Lead save failed";
+    console.error("Failed to save bill analyzer lead:", err);
+    return { error: message };
+  }
+}
+
+export function buildLeadShareText(input: BillAnalyzerLeadWrite): string {
+  const r = input.result;
+  return [
+    "GridLoad Bill Analyzer lead",
+    `Name: ${input.firstName?.trim() || "Customer"}`,
+    `Phone: ${input.phone}`,
+    input.email ? `Email: ${input.email}` : null,
+    `Location: ${input.location}`,
+    `Language: ${input.language}`,
+    `Monthly bill: ${input.monthlyBill}`,
+    `Price/kWh: ${input.pricePerKwh}`,
+    `Roof: ${input.roofSize} m²`,
+    `System: ${r.systemSizeKw} kW`,
+    r.batteryCapacityKwh != null ? `Battery: ${r.batteryCapacityKwh} kWh` : "Battery: no",
+    `Panels: ${r.panelsNeeded}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
 }
 
 export async function requestBillAnalyzerCallback(phone: string, input?: BillAnalyzerLeadWrite): Promise<{ error: string | null }> {
-  if (input) {
-    return upsertBillAnalyzerLead({ ...input, phone, status: "callback_requested" });
+  try {
+    if (input) {
+      return upsertBillAnalyzerLead({ ...input, phone, status: "callback_requested" });
+    }
+    const { error } = await supabase.rpc("submit_bill_analyzer_lead" as never, {
+      payload: {
+        first_name: "Customer",
+        phone,
+        status: "callback_requested",
+        source: "bill-analyzer",
+      },
+    } as never);
+    return { error: error?.message ?? null };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Callback save failed";
+    console.error("Failed to save callback request:", err);
+    return { error: message };
   }
-  const { error } = await supabase.rpc("submit_bill_analyzer_lead" as never, {
-    payload: {
-      first_name: "Customer",
-      phone,
-      status: "callback_requested",
-      source: "bill-analyzer",
-    },
-  } as never);
-  return { error: error?.message ?? null };
 }
 
 export async function fetchBillAnalyzerLeads(): Promise<{ data: BillAnalyzerLead[]; error: string | null }> {

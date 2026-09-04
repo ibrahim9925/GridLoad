@@ -7,9 +7,8 @@ import { componentTagger } from "lovable-tagger";
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
-    // Dedicated GridLoad port. Other Lovable/Vite apps (e.g. Aqarkoom) often
-    // already occupy 8080, so this app must not share that default.
-    port: 5174,
+    // GridLoad owns 8080. Aqarkoom must use a different port (5173).
+    port: 8080,
     strictPort: true,
   },
   plugins: [

@@ -271,6 +271,7 @@ export default function BillAnalyzer() {
     setResult(next);
     setCrmSaveFailed(false);
     setSaving(true);
+    const saveStarted = Date.now();
     try {
       const { error } = await upsertBillAnalyzerLead(payload);
       if (error) {
@@ -283,6 +284,10 @@ export default function BillAnalyzer() {
       setCrmSaveFailed(true);
       openFallbacks(buildLeadShareText(payload));
     } finally {
+      const remaining = 600 - (Date.now() - saveStarted);
+      if (remaining > 0) {
+        await new Promise((resolve) => setTimeout(resolve, remaining));
+      }
       setSaving(false);
     }
     setSubmitted(true);

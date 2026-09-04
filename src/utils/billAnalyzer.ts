@@ -8,8 +8,9 @@
  *   76.92×1.3 = 100 kWh battery nameplate
  */
 
-/** Conservative Palestine annual peak-sun-hours (winter-weighted vs ~5.0–5.6 typical). */
-export const PEAK_SUN_HOURS = 4.5;
+export const PALESTINE_PEAK_SUN_HOURS = 5.5;
+export const GENERIC_PEAK_SUN_HOURS = 4.5;
+export const PEAK_SUN_HOURS = GENERIC_PEAK_SUN_HOURS;
 /** 350 W module. */
 export const PANEL_KW = 0.35;
 /** Rule-of-thumb footprint including light row spacing. Real layouts often need 2.2–2.5 m². */
@@ -35,6 +36,7 @@ export type BillAnalyzerInput = {
   roofSizeM2: number;
   dailyUsageHours?: number | null;
   batteryNeeded: boolean;
+  peakSunHours?: number;
 };
 
 export type BillAnalyzerResult = {
@@ -57,9 +59,12 @@ export type BillAnalyzerResult = {
 };
 
 export function calculateBillRecommendation(input: BillAnalyzerInput): BillAnalyzerResult {
+  const peakSunHours = input.peakSunHours && input.peakSunHours > 0
+    ? input.peakSunHours
+    : GENERIC_PEAK_SUN_HOURS;
   const monthlyKwh = input.monthlyBill / input.pricePerKwh;
   const dailyKwh = monthlyKwh / DAYS_PER_MONTH;
-  const systemSizeKw = Math.round(dailyKwh / PEAK_SUN_HOURS);
+  const systemSizeKw = Math.round(dailyKwh / peakSunHours);
   const batteryCapacityKwh = input.batteryNeeded
     ? Math.round(dailyKwh * BATTERY_DAY_FACTOR)
     : null;

@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import BuyerLeadsTable from "./BuyerLeadsTable";
 import SupplierLeadsTable from "./SupplierLeadsTable";
+import BillAnalyzerLeadsTab from "./BillAnalyzerLeadsTab";
 import { SolarCalculatorAnalytics } from "../solar/SolarCalculatorAnalytics";
 import SearchInput from "./SearchInput";
 import type { Lead } from "@/hooks/useOptimizedLeadsData";
@@ -69,6 +70,7 @@ const LeadsTabs = ({
     <Tabs defaultValue="buyers">
       <TabsList className="mb-4">
         <TabsTrigger value="buyers">Customer Inquiries ({buyerLeads.length})</TabsTrigger>
+        <TabsTrigger value="bill-analyzer">Bill Analyzer</TabsTrigger>
         <TabsTrigger value="suppliers">Supplier Applications</TabsTrigger>
         <TabsTrigger value="solar">Solar Calculator</TabsTrigger>
       </TabsList>
@@ -96,6 +98,14 @@ const LeadsTabs = ({
                 onDeleteLead={onDeleteLead}
               />
             )}
+          </CardContent>
+        </Card>
+      </TabsContent>
+      
+      <TabsContent value="bill-analyzer">
+        <Card>
+          <CardContent className="pt-6">
+            <BillAnalyzerLeadsTab />
           </CardContent>
         </Card>
       </TabsContent>

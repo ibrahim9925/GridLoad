@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import SiteLayout from "@/components/site/SiteLayout";
 import BannerSlider from "@/components/site/BannerSlider";
+import BillAnalyzer from "@/components/site/BillAnalyzer";
 import ProductCard from "@/components/site/ProductCard";
 import ProjectCard from "@/components/site/ProjectCard";
 import { Award, Handshake, Headphones, Globe } from "lucide-react";
@@ -41,6 +42,8 @@ export default function Home() {
   return (
     <SiteLayout>
       <BannerSlider />
+
+      <BillAnalyzer />
 
       {/* Why GridLoad */}
       <section className="py-16 bg-white">

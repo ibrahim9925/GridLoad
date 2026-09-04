@@ -7,7 +7,9 @@ import { componentTagger } from "lovable-tagger";
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
+    // GridLoad owns 8080. Aqarkoom must use a different port (5173).
     port: 8080,
+    strictPort: true,
   },
   plugins: [
     react(),

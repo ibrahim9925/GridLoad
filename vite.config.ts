@@ -5,7 +5,10 @@ import path from "path";
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    host: true,
+    // Must be IPv4 0.0.0.0 so Cursor can see 8080 in /proc/net/tcp.
+    // host: true / "::" only binds IPv6 (:::8080). Cursor's port forward
+    // falls back to /proc/net/tcp and never finds the server — blank Browser tab.
+    host: "0.0.0.0",
     port: 8080,
     strictPort: true,
     allowedHosts: true,

@@ -21,9 +21,10 @@ alwaysApply: true
 The port is configured in `vite.config.ts`:
 ```
 server: {
-  host: "0.0.0.0",
+  host: true,
   port: 8080,
   strictPort: true,
+  allowedHosts: true,
 }
 ```
 

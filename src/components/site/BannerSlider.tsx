@@ -17,12 +17,26 @@ export default function BannerSlider() {
   const [idx, setIdx] = useState(0);
 
   useEffect(() => {
+    let cancelled = false;
+    const timeout = window.setTimeout(() => {
+      if (!cancelled) setBanners((current) => current ?? []);
+    }, 2500);
     supabase
       .from("banners")
       .select("id,title,subtitle,image_url,cta_text,cta_link")
       .eq("is_active", true)
       .order("display_order", { ascending: true })
-      .then(({ data }) => setBanners((data ?? []) as Banner[]));
+      .then(({ data }) => {
+        if (!cancelled) setBanners((data ?? []) as Banner[]);
+      })
+      .catch(() => {
+        if (!cancelled) setBanners([]);
+      })
+      .finally(() => window.clearTimeout(timeout));
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeout);
+    };
   }, []);
 
   useEffect(() => {

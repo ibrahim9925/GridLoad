@@ -21,13 +21,18 @@ export default function Home() {
 
   useEffect(() => {
     document.title = "GridLoad Energy — Authorized Solar Distribution";
+    const timeout = window.setTimeout(() => {
+      setProducts((current) => current ?? []);
+      setProjects((current) => current ?? []);
+    }, 2500);
     supabase
       .from("products")
       .select(PRODUCT_FIELDS)
       .eq("is_active", true)
       .eq("is_featured", true)
       .limit(6)
-      .then(({ data }) => setProducts((data ?? []) as any));
+      .then(({ data }) => setProducts((data ?? []) as any))
+      .catch(() => setProducts([]));
     supabase
       .from("projects")
       .select("*")
@@ -35,7 +40,9 @@ export default function Home() {
       .eq("is_featured", true)
       .order("completion_date", { ascending: false, nullsFirst: false })
       .limit(3)
-      .then(({ data }) => setProjects((data ?? []) as any));
+      .then(({ data }) => setProjects((data ?? []) as any))
+      .catch(() => setProjects([]))
+      .finally(() => window.clearTimeout(timeout));
   }, []);
 
   return (

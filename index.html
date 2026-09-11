@@ -5,9 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Security Headers -->
+    <!-- Do not set X-Frame-Options: DENY — Cursor's port preview loads in an iframe. -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-    <meta http-equiv="X-Frame-Options" content="DENY" />
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
     
@@ -31,9 +30,12 @@
   </head>
 
   <body>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <div id="root">
+      <div style="font-family:Inter,system-ui,sans-serif;padding:48px;color:#1B2A3B">
+        <p style="font-weight:700;font-size:20px;margin:0">GridLoad</p>
+        <p style="margin:8px 0 0;color:#5b6b7a">Starting on http://localhost:8080…</p>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

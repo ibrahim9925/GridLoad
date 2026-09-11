@@ -56,8 +56,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        <ErrorBoundary>
         <AuthProvider>
-          <ErrorBoundary>
             <Toaster />
             <Routes>
               {/* Public GridLoad site */}
@@ -114,8 +114,8 @@ function App() {
               <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
               <Route path="*" element={<SiteNotFound />} />
             </Routes>
-          </ErrorBoundary>
         </AuthProvider>
+        </ErrorBoundary>
       </BrowserRouter>
     </QueryClientProvider>
   );
